@@ -1,9 +1,12 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
 
 # Singleton service factory configuration/IoC injection
 singletons:
 # HandlerProvider implementation
 - com.networknt.handler.HandlerProvider:
-  - com.networknt.webserver.handler.WebServerHandlerProvider
+  - ${package}.WebServerHandlerProvider
 # StartupHookProvider implementations, there are one to many and they are called in the same sequence defined.
 # - com.networknt.server.StartupHookProvider:
   # - com.networknt.server.Test1StartupHook

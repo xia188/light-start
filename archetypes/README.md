@@ -2,9 +2,13 @@
 
 git clone https://github.com/networknt/light-example-4j
 
-##### 使用1.6.x分支（JAVA8），或者release分支（JAVA11）
+##### 使用1.6.x分支（JAVA8），或者release分支（JAVA11），使用最新稳定版，跳过SNAPSHOT版本
 
 git checkout origin/1.6.x
+
+git log
+
+git checkout a954c86275a18a58498ad36d05f86c4e053fc58c
 
 cd light-example-4j/webserver/api-simple-web
 

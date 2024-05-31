@@ -14,34 +14,15 @@
       <includes>
         <include>**/*.xml</include>
         <include>**/*.html</include>
+        <include>**/*.yml</include>
       </includes>
     </fileSet>
     <fileSet encoding="UTF-8">
       <directory>src/main/resources</directory>
       <includes>
         <include>**/*.crt</include>
-        <include>**/*.yml</include>
         <include>**/*.keystore</include>
         <include>**/*.truststore</include>
-      </includes>
-    </fileSet>
-    <fileSet encoding="UTF-8">
-      <directory>.settings</directory>
-      <includes>
-        <include>**/*.prefs</include>
-      </includes>
-    </fileSet>
-    <fileSet encoding="UTF-8">
-      <directory>docker</directory>
-      <includes>
-        <include>**/*.</include>
-      </includes>
-    </fileSet>
-    <fileSet filtered="true" encoding="UTF-8">
-      <directory></directory>
-      <includes>
-        <include>.classpath</include>
-        <include>.project</include>
       </includes>
     </fileSet>
     <fileSet encoding="UTF-8">
