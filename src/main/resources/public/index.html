@@ -1,3 +1,33 @@
-<htm>
-    Hello Light Java!
-</htm>
+
+<html>
+<head>
+    <title>OpenAPI Spec</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.12/swagger-ui.min.css">
+</head>
+<body>
+<div id="swagger-ui"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.12/swagger-ui-bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/5.17.12/swagger-ui-standalone-preset.min.js"></script>
+<script>
+window.onload = function() {
+
+  const ui = SwaggerUIBundle({
+    url: "spec.yaml",
+    validatorUrl : false,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  })
+
+  window.ui = ui
+}
+</script>
+</body>
+</html>

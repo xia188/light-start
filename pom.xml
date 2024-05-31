@@ -80,6 +80,27 @@
             <artifactId>undertow-core</artifactId>
             <version>${version.undertow}</version>
         </dependency>
+		<!-- generators -->
+		<dependency>
+		    <groupId>com.networknt</groupId>
+		    <artifactId>codegen-fwk</artifactId>
+		    <version>${version.light-4j}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.networknt</groupId>
+		    <artifactId>light-rest-4j-generator</artifactId>
+		    <version>${version.light-4j}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.networknt</groupId>
+		    <artifactId>light-hybrid-4j-generator</artifactId>
+		    <version>${version.light-4j}</version>
+		</dependency>
+		<dependency>
+		    <groupId>com.networknt</groupId>
+		    <artifactId>light-graphql-4j-generator</artifactId>
+		    <version>${version.light-4j}</version>
+		</dependency>
 
       
         <!-- Test Dependencies -->
@@ -91,7 +112,25 @@
         </dependency>
 
     </dependencies>
-
+	<profiles>
+		<profile>
+			<id>cli-web</id>
+			<dependencies>
+				<dependency>
+					<groupId>com.networknt</groupId>
+					<artifactId>codegen-cli</artifactId>
+					<version>${version.light-4j}</version>
+					<scope>provided</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.networknt</groupId>
+					<artifactId>codegen-web</artifactId>
+					<version>${version.light-4j}</version>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
     <build>
         <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
