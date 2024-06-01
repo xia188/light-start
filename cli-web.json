@@ -1,0 +1,13 @@
+{
+	"host": "lightapi.net",
+	"service": "codegen",
+	"action": "single",
+	"version": "0.0.1",
+	"data": {
+		"framework": "openapi",
+		"configType": "U",
+		"configUrl": "https://gitee.com/lightgrp/light-service/raw/master/model-config/petstore/config.json",
+		"modelType": "U",
+		"modelUrl": "https://gitee.com/lightgrp/light-service/raw/master/model-config/petstore/openapi.yaml"
+	}
+}

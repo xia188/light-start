@@ -1,13 +1,19 @@
 openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: light-start
 servers:
-  - url: '/'
+- url: /
+externalDocs:
+  url: http://localhost:8080/target/
+  description: 文件下载
 paths:
   /api/json:
     post:
       requestBody:
         required: true
         content:
-          'application/x-www-form-urlencoded':
+          application/x-www-form-urlencoded:
             schema:
               $ref: '#/components/schemas/Args'
       responses:
@@ -22,24 +28,24 @@ components:
       type: object
       properties:
         framework:
-          description: rest有3个，hybrid有2个，graphql有1个
+          description: rest有4个，hybrid有2个，graphql有1个
           type: string
-          enum: 
-            - openapi
-            - openapi-spec
-            - openapilambda
-            - light-hybrid-4j-service
-            - light-hybrid-4j-server
-            - graphql
+          enum:
+          - openapi
+          - swagger
+          - openapi-spec
+          - openapikotlin
+          - light-hybrid-4j-service
+          - light-hybrid-4j-server
+          - graphql
         config:
           description: 配置groupId、artifactId、package等信息的config.json文件内容或网址
           type: string
           example: https://gitee.com/lightgrp/light-service/raw/master/model-config/petstore/config.json
         model:
-          description: framework需要的规范文件内容或网址：openapi.yaml、schema.json、schema.graphqls
+          description: framework需要的规范文件内容或网址：openapi.yaml、schema.json、schema.graphqls，某些framework可以为空
           type: string
           example: https://gitee.com/lightgrp/light-service/raw/master/model-config/petstore/openapi.yaml
       required:
-        - framework
-        - config
-        - model
+      - framework
+      - config

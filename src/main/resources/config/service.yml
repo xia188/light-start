@@ -20,4 +20,13 @@ singletons:
   # Correlation Create correlationId if it doesn't exist in the request header and put it into the request header
   - com.networknt.correlation.CorrelationHandler
   - com.networknt.body.BodyHandler
-
+# Generator interface implementations
+- com.networknt.codegen.Generator:
+  - com.networknt.codegen.rest.OpenApiGenerator
+  - com.networknt.codegen.rest.SwaggerGenerator
+  - com.networknt.codegen.rest.OpenApiSpecGenerator
+#  - com.networknt.codegen.rest.OpenApiLambdaGenerator
+  - com.networknt.codegen.hybrid.HybridServerGenerator
+  - com.networknt.codegen.hybrid.HybridServiceGenerator
+  - com.networknt.codegen.graphql.GraphqlGenerator
+  - com.networknt.codegen.rest.OpenApiKotlinGenerator
