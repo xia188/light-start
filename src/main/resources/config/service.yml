@@ -24,7 +24,6 @@ singletons:
 - com.networknt.codegen.Generator:
   - com.networknt.codegen.rest.OpenApiGenerator
   - com.networknt.codegen.rest.SwaggerGenerator
-  - com.networknt.codegen.rest.OpenApiSpecGenerator
 #  - com.networknt.codegen.rest.OpenApiLambdaGenerator
   - com.networknt.codegen.hybrid.HybridServerGenerator
   - com.networknt.codegen.hybrid.HybridServiceGenerator

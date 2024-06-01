@@ -13,6 +13,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,35 +62,38 @@ public class JsonHandler implements HttpHandler {
 			String zipFile = "target/" + output + ".zip";
 
 			// 输出方式2的命令，方式3参考cli-web.sh：java -jar target/codegen-web-1.6.47.jar
-			logger.info("\njava -jar {} -f {} -c {} -m {} -o {}", cliJar, framework, config, model, output);
+			if (Utils.isUrl(model) && Utils.isUrl(config)) {
+				logger.info("\njava -jar {} -f {} -c {} -m {} -o {}", cliJar, framework, config, model, output);
+			}
 
 			try {
 				Generator generator = registry.getGenerator(framework);
 				Object anyModel = null;
 				// model can be empty in some cases.
-				if (model != null) {
+				if (StringUtils.isNotBlank(model)) {
 					// check if model is json or not before loading.
-					if (model.endsWith("json")) {
-						if (Utils.isUrl(model)) {
+					if (Utils.isUrl(model)) {
+						if (model.endsWith("json")) {
 							anyModel = JsonIterator.deserialize(Utils.urlToByteArray(new URL(model)));
 						} else {
-							anyModel = JsonIterator.deserialize(Files.readAllBytes(Paths.get(model)));
+							anyModel = new String(Utils.urlToByteArray(new URL(model)), StandardCharsets.UTF_8);
 						}
 					} else {
-						if (Utils.isUrl(model)) {
-							anyModel = new String(Utils.urlToByteArray(new URL(model)), StandardCharsets.UTF_8);
+						model = org.apache.commons.codec.binary.StringUtils.newStringUtf8(Base64.decodeBase64(model));
+						if (model.startsWith("{") || model.startsWith("[")) {
+							anyModel = JsonIterator.deserialize(model);
 						} else {
-							anyModel = new String(Files.readAllBytes(Paths.get(model)), StandardCharsets.UTF_8);
+							anyModel = model;
 						}
 					}
 				}
 
 				Any anyConfig = null;
-				if (config != null) {
+				if (StringUtils.isNotBlank(config)) {
 					if (Utils.isUrl(config)) {
 						anyConfig = JsonIterator.deserialize(Utils.urlToByteArray(new URL(config)));
 					} else {
-						anyConfig = JsonIterator.deserialize(Files.readAllBytes(Paths.get(config)));
+						anyConfig = JsonIterator.deserialize(config);
 					}
 				}
 
@@ -97,13 +101,11 @@ public class JsonHandler implements HttpHandler {
 				File file = new File(output);
 				if (!file.exists()) {
 					message = "生成失败：" + output + "，请检查model配置";
+					logger.warn(message);
 				} else {
 					logger.info(zipFile);
 
 					NioUtils.create(zipFile, output);
-					// delete the project folder. 取消.peek(System.out::println)
-					Files.walk(Paths.get(output), FileVisitOption.FOLLOW_LINKS).sorted(Comparator.reverseOrder())
-							.map(Path::toFile).forEach(File::delete);
 					// 返回下载链接，不用codegen-web直接响应字节
 //					exchange.getResponseHeaders().add(new HttpString("Content-Type"), "application/zip")
 //							.add(new HttpString("Content-Disposition"), "attachment; filename=" + file.getName());
@@ -112,7 +114,11 @@ public class JsonHandler implements HttpHandler {
 				}
 			} catch (Exception e) {
 				message = e.getMessage();
+				logger.warn(message);
 			}
+			// delete the project folder. 取消.peek(System.out::println)
+			Files.walk(Paths.get(output), FileVisitOption.FOLLOW_LINKS).sorted(Comparator.reverseOrder())
+					.map(Path::toFile).forEach(File::delete);
 		}
 
 		if (exchange.isComplete())
