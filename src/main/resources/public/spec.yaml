@@ -5,7 +5,7 @@ info:
 servers:
 - url: /
 externalDocs:
-  url: /target/
+  url: http://localhost:8080/target/
   description: 文件下载
 paths:
   /api/json:
@@ -23,6 +23,10 @@ paths:
             application/json:
               schema:
                 type: object
+                properties:
+                  message:
+                    type: string
+                    description: 错误消息，或者文件路径
           description: 点击上面的“文件下载”链接，拼接返回的message内容，即可下载生成的zip包。
 components:
   schemas:

@@ -23,6 +23,14 @@ window.onload = function() {
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
     ],
+    defaultModelsExpandDepth: -1,
+    onComplete: function(){
+    	s = 'localhost:8080';
+    	if(s != location.host) {
+	    	a = document.querySelector('a.info__extdocs');
+	    	a.href = a.href.replace(s,location.host);
+    	}
+    },
     layout: "StandaloneLayout"
   })
 
