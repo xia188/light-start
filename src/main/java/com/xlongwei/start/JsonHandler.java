@@ -79,7 +79,9 @@ public class JsonHandler implements HttpHandler {
 							anyModel = new String(Utils.urlToByteArray(new URL(model)), StandardCharsets.UTF_8);
 						}
 					} else {
-						model = org.apache.commons.codec.binary.StringUtils.newStringUtf8(Base64.decodeBase64(model));
+						if (!(model.startsWith("{") || model.startsWith("["))) {
+							model = org.apache.commons.codec.binary.StringUtils.newStringUtf8(Base64.decodeBase64(model));
+						}
 						if (model.startsWith("{") || model.startsWith("[")) {
 							anyModel = JsonIterator.deserialize(model);
 						} else {

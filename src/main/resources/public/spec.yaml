@@ -42,7 +42,7 @@ components:
           - openapikotlin
           - light-hybrid-4j-service
           - light-hybrid-4j-server
-          - graphql
+          - light-graphql-4j
         config:
           description: 配置groupId、artifactId、package等信息的config.json文件内容（clip < config.json）或网址
           type: string
