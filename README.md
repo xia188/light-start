@@ -16,5 +16,6 @@
 2. mvn:archetype也可以生成项目，但light-codegen更灵活一些，[config.json](https://doc.networknt.com/tool/light-codegen/openapi-generator/#config)和[openapi.yaml](https://github.com/networknt/model-config)自定义更丰富。
 3. light-start最初也是通过骨架api-simple-web-archetype生成，加上swagger-ui后基本能实现功能因此没有再写ajax请求页面。
 4. swagger-ui请求handler通过shell调用codegen-cli命令行工具是个不错的想法，使用solon-api或hutool.http会更轻量级，考虑加到[deploy](https://gitee.com/xlongwei/deploy)上。
+5. 上面第4点已经实现，并且功能还得到了增强：支持配置文件上传，支持2.x版本（需Java11，我服务器上只有Java8，所以暂不支持），[在线生成](http://115.28.229.158:9881/specui.html)。
 
 ![light-start](/light-start.PNG "light-start")
