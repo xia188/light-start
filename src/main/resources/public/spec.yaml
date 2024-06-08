@@ -2,19 +2,23 @@ openapi: 3.0.0
 info:
   version: 1.0.0
   title: light-start
+  description: |-
+    版本1.x参考codegen-cli-1.6.47编码实现，版本2.x参考 [deploy](https://gitee.com/xlongwei/deploy) 调用[codegen-cli-2.1.32.jar](https://github.com/xia188/light-codegen/tree/release.jdk8)实现（降低编译级，调整少量代码，重新打包，从而支持JDK8）。
 servers:
 - url: /
 externalDocs:
-  url: http://localhost:8080/target/
+  url: http://localhost:8080/files/
   description: 文件下载
 paths:
-  /api/json:
+  /codegen:
     post:
-      description: 由于BodyHandler无法处理multipart/form-data上传文件，因此仅支持网址或文本；并且yaml文件粘贴后丢失了格式等信息，所以使用base64转码，而json直接粘貼即可。
+      description: config、configFile不同时为空时则生成项目，否则model、modelFile就会存入files目录供在线预览；openapilambda仅版本2.x支持。
+      tags:
+        - openapi
       requestBody:
         required: true
         content:
-          application/x-www-form-urlencoded:
+          multipart/form-data:
             schema:
               $ref: '#/components/schemas/Args'
       responses:
@@ -27,30 +31,43 @@ paths:
                   message:
                     type: string
                     description: 错误消息，或者文件路径
-          description: 点击上面的“文件下载”链接，拼接返回的message内容，即可下载生成的zip包。
+          description: 点击上面的“文件下载”链接，拼接返回的message内容，即可下载生成的zip包；或者复制地址栏specui.html之后，即可在线预览yaml规范。
 components:
   schemas:
     Args:
       type: object
       properties:
         framework:
-          description: rest有3个，hybrid有2个，graphql有1个；config和model参考https://github.com/networknt/model-config。
+          description: rest有3个（其中openapilambda仅版本2.x支持），hybrid有2个，graphql有1个；config和model参考https://github.com/networknt/model-config。
           type: string
           enum:
           - openapi
-          - swagger
           - openapikotlin
           - light-hybrid-4j-service
           - light-hybrid-4j-server
           - light-graphql-4j
+          - openapilambda
         config:
           description: 配置groupId、artifactId、package等信息的config.json文件内容（clip < config.json）或网址
           type: string
           example: https://gitee.com/lightgrp/light-service/raw/master/model-config/petstore/config.json
+        configFile:
+          description: 配置文件：config.json（版本2.x还支持config.yaml格式）
+          type: string
+          format: binary
         model:
-          description: 规范文件base64内容（base64 openapi.yaml | clip）或网址：openapi.yaml、swagger.json、schema.json、schema.graphqls，某些framework可以为空
+          description: 规范文件base64内容（base64 openapi.yaml | clip）或网址
           type: string
           example: https://gitee.com/lightgrp/light-service/raw/master/model-config/petstore/openapi.yaml
+        modelFile:
+          description: 规范文件：openapi.yaml、swagger.json、schema.json、schema.graphqls，某些framework可以为空
+          type: string
+          format: binary
+        release:
+          description: openapilambda仅版本2.x支持
+          type: string
+          enum:
+            - 1.x
+            - 2.x
       required:
       - framework
-      - config

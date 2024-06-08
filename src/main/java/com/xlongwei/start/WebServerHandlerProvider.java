@@ -15,10 +15,10 @@ import io.undertow.server.handlers.resource.FileResourceManager;
 public class WebServerHandlerProvider implements HandlerProvider {
 
 	public HttpHandler getHandler() {
-		return path().addPrefixPath("/api/json", new JsonHandler(Config.getInstance().getMapper())).addPrefixPath("/",
+		return path().addPrefixPath("/codegen", new JsonHandler(Config.getInstance().getMapper())).addPrefixPath("/",
 				resource(new ClassPathResourceManager(WebServerHandlerProvider.class.getClassLoader(), "public")))
-				.addPrefixPath("/target",
-						resource(new FileResourceManager(new File("target"))).setDirectoryListingEnabled(true));
+				.addPrefixPath("/files",
+						resource(new FileResourceManager(new File("files"))).setDirectoryListingEnabled(true));
 	}
 
 }
